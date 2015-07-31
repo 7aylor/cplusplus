@@ -17,7 +17,7 @@ void checkNum(int &choice, int upperBound, int lowerBound);
 int main()
 {
 	default_random_engine randomGenerator(time(NULL));
-	uniform_int_distribution<int> attack(0, 10);
+	uniform_real_distribution<float> attack(0.0f, 1.0f);
 
 	int naziAttack = 10;
 	int zombieAttack = 5;
@@ -76,11 +76,18 @@ int main()
 
 	//makes the nazis and zombies fight each other until one army is completely dead
 	while ((zombieNum > 0) && (naziNum > 0)){
-		int zombieAtt = attack(randomGenerator);
-		int naziAtt = attack(randomGenerator);
+		float zombieAtt = attack(randomGenerator);
+		float naziAtt = attack(randomGenerator);
 
-		naziHealth = naziHealth - (zombieAttack + zombieAtt);
-		zombieHealth = zombieHealth - (naziAtt + naziAttack);
+		//two thirds of the time, zombie hits a nazi for 5 damage
+		if (zombieAtt > .33){
+			naziHealth = naziHealth - zombieAttack;
+		}
+		//half of the time, nazi hits a zombie for 10 damage
+		if (naziAtt > .5){
+			zombieHealth = zombieHealth - naziAttack;
+		}
+
 
 		if (naziHealth <= 0){
 			naziNum--;
