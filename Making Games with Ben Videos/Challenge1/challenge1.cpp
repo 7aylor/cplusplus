@@ -19,21 +19,34 @@ int main()
 	default_random_engine randomGenerator(time(NULL));
 	uniform_real_distribution<float> attack(0.0f, 1.0f);
 
+	//attack damage
 	int naziAttack = 10;
 	int zombieAttack = 5;
 
+	//chance of hitting
+	float naziPercent = 0.5f;
+	float zombiePercent = 0.66f;
+
+	//health per person
 	int naziHealth = 15;
 	int zombieHealth = 20;
 
+	//person at the front line health
+	int currentNaziHealth = naziAttack;
+	int currentZombieHealth = zombieHealth;
+
+	//total number of nazis and zombies
 	int naziNum;
 	int zombieNum;
+
+	//determines who attacks first
+	int start = 1;
 
 	int naziDeaths = 0;
 	int zombieDeaths = 0;
 
 	int upperBound = 10000;
 	int lowerBound = 1;
-
 
 	string nazi = "Nazi";
 	string zombie = "Zombie";
@@ -79,29 +92,39 @@ int main()
 		float zombieAtt = attack(randomGenerator);
 		float naziAtt = attack(randomGenerator);
 
-		//two thirds of the time, zombie hits a nazi for 5 damage
-		if (zombieAtt > .33){
-			naziHealth = naziHealth - zombieAttack;
-		}
-		//half of the time, nazi hits a zombie for 10 damage
-		if (naziAtt > .5){
-			zombieHealth = zombieHealth - naziAttack;
-		}
+		if (start == 1){
+			//half of the time, nazi hits a zombie for 10 damage
+			if (naziAtt > naziPercent){
+				currentZombieHealth = currentZombieHealth - naziAttack;
 
-
-		if (naziHealth <= 0){
-			naziNum--;
-			naziDeaths++;
-			naziHealth = 15;
+				//if zombie health is zero, kill and update
+				if (currentZombieHealth <= 0){
+					zombieNum--;
+					zombieDeaths++;
+					currentZombieHealth = zombieHealth;
+				}
+			}
+			//changes the attacker for the next round
+			start = start * -1;
 		}
-		else if (zombieHealth <= 0){
-			zombieNum--;
-			zombieDeaths++;
-			zombieHealth = 20;
+		else{
+			//two thirds of the time, zombie hits a nazi for 5 damage
+			if (zombieAtt < zombiePercent){
+				currentNaziHealth = currentNaziHealth - zombieAttack;
+
+				//if nazi health is zero, kill and update
+				if (currentNaziHealth <= 0){
+					naziNum--;
+					naziDeaths++;
+					currentNaziHealth = naziHealth;
+				}
+			}
+			//changes the attacker for the next round
+			start = start * -1;
 		}
 	}
 
-	if (naziNum <= 0){
+	if (zombieNum > 0){
 		cout << "Zombies win!\n\n";
 	}
 	else{
