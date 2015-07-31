@@ -1,0 +1,41 @@
+CXX = g++
+CXXFLAGS = -std=c++0x
+CXXFLAGS += -g -Wall -pedantic-errors
+
+SRC1 = main.cpp
+SRC2 = Barbarian.cpp
+SRC3 = BlueMen.cpp
+SRC4 = Creature.cpp
+SRC5 = Goblin.cpp
+SRC6 = ReptilePeople.cpp
+SRC7 = PlaguedBarbarian.cpp
+SRC8 = PlaguedBlueMen.cpp
+SRC9 = PlaguedGoblin.cpp
+SRC10 = PlaguedReptile.cpp
+SRC11 = Weapon.cpp
+SRC12 = BowAndArrow.cpp
+SRC13 = Shield.cpp
+SRC14 = Sword.cpp
+SRCS = ${SRC1} ${SRC2} ${SRC3} ${SRC4} ${SRC5} ${SRC6} ${SRC7}
+SRCS += ${SRC8} ${SRC9} ${SRC10} ${SRC11} ${SRC12} ${SRC13} ${SRC14}
+
+HEADER1 = Barbarian.h
+HEADER2 = BlueMen.h
+HEADER3 = Creature.h
+HEADER4 = Goblin.h
+HEADER5 = ReptilePeople.h
+HEADER6 = PlaguedBarbarian.h
+HEADER7 = PlaguedBlueMen.h
+HEADER8 = PlaguedGoblin.h
+HEADER9 = PlaguedReptile.h
+HEADER10 = Weapon.h
+HEADER11 = BowAndArrow.h
+HEADER12 = Shield.h
+HEADER13 = Sword.h
+HEADERS = ${HEADER1} ${HEADER2} ${HEADER3} ${HEADER4} ${HEADER5} ${HEADER6}
+HEADERS += ${HEADER7} ${HEADER8} ${HEADER9} ${HEADER10} ${HEADER11}
+HEADERS += ${HEADER12} ${HEADER13}
+
+
+finalproject: ${SRCS} ${HEADERS}
+	${CXX} ${CXXFLAGS} ${SRCS} ${HEADERS} -o finalproject
